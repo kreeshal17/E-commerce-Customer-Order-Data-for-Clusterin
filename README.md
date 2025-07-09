@@ -1,72 +1,100 @@
-# Customer Segmentation Using RFM Analysis and KMeans Clustering
+# customer segmentation using rfm analysis, kmeans clustering & excel insights
 
-## Overview
+## overview
 
-This project demonstrates how to perform customer segmentation on transactional data using **RFM (Recency, Frequency, Monetary) analysis** combined with **KMeans clustering**. The goal is to identify distinct customer groups based on their purchasing behavior to help businesses tailor marketing strategies and improve customer retention.
+this project demonstrates how to perform **customer segmentation** on transactional data by combining:
 
----
+- **rfm (recency, frequency, monetary) analysis with kmeans clustering** in python to discover distinct customer groups based on purchasing behavior.
+- **exploratory data analysis and insights using excel and power query**, including pivot tables, slicers, and charts to understand sales trends by time, location, and order status.
 
-## Dataset
-
-The dataset contains customer transaction records with fields such as:
-
-- `CustomerID`: Unique identifier for each customer  
-- `OrderDate`: Date of purchase  
-- `OrderID`: Unique order number  
-- `OrderAmount`: Purchase amount  
-- `OrderStatus`, `PaymentMethod`, `City`, `State`: Additional categorical info  
-
-> **Note:** The dataset is not included in this repo due to privacy. Please use your own transactional data or public datasets with similar structure.
+the combined approach helps businesses tailor marketing strategies and improve customer retention by identifying meaningful customer segments and visualizing key transactional patterns.
 
 ---
 
-## Features and Methodology
+## dataset
 
-1. **RFM Feature Engineering**  
-   - **Recency:** Days since last purchase (calculated from `OrderDate`)  
-   - **Frequency:** Number of orders per customer  
-   - **Monetary:** Total amount spent by each customer  
+the dataset contains customer transaction records with fields such as:
 
-2. **Data Preprocessing**  
-   - Handling missing values in categorical features (`OrderStatus`, `PaymentMethod`, `City`, `State`) by filling with mode.  
-   - Encoding categorical variables using `LabelEncoder`.  
-   - Scaling features using `StandardScaler` to normalize data before clustering.
+- `customerid`: unique customer identifier  
+- `orderdate`: date of purchase  
+- `orderid`: unique order number  
+- `orderamount`: purchase amount  
+- `orderstatus`, `paymentmethod`, `city`, `state`: additional categorical info  
 
-3. **Clustering with KMeans**  
-   - Applied the **Elbow Method** to select the optimal number of clusters by plotting Within-Cluster Sum of Squares (WCSS).  
-   - Performed KMeans clustering with the chosen number of clusters (default: 5).  
-   - Calculated **Silhouette Score** for cluster validation, measuring cluster cohesion and separation.
-
-4. **Similarity Function**  
-   - Defined a function to find similar customers based on **Euclidean Distance** in the scaled feature space, helping identify customers with similar buying patterns within the same cluster.
+> **note:** due to privacy, the dataset is not included here. use your own transactional data or a public dataset with similar structure.
 
 ---
 
-## Visualization
+## features and methodology
 
-- Scatter plots showing clusters by frequency and total amount spent.  
-- Bar plots summarizing average monetary value per cluster.  
-- Heatmaps to explore correlation between RFM features.
+### 1. rfm feature engineering (python)
+
+- **recency:** days since last purchase (calculated from `orderdate`)  
+- **frequency:** number of orders per customer  
+- **monetary:** total amount spent per customer  
+
+### 2. data preprocessing (python)
+
+- handle missing values in categorical columns (`orderstatus`, `paymentmethod`, `city`, `state`) by filling with the mode.  
+- encode categorical variables using `labelencoder`.  
+- scale features with `standardscaler` for normalization before clustering.
+
+### 3. clustering with kmeans (python)
+
+- use the **elbow method** to determine the optimal number of clusters by plotting within-cluster sum of squares (wcss).  
+- apply kmeans clustering (default: 5 clusters).  
+- validate clustering quality using the **silhouette score**.  
+
+### 4. similarity function (python)
+
+- find similar customers based on euclidean distance in scaled rfm feature space to identify customers with similar purchasing behavior within clusters.
 
 ---
 
-Install required libraries:
+## excel & power query insights
 
-bash
-Copy
-Edit
-pip install pandas numpy scikit-learn matplotlib seaborn
-Place your dataset CSV file in the project folder and update the path in the notebook or script.
+to complement python analysis, detailed exploratory data analysis was performed in excel:
 
-Run the notebook or Python script to see the clustering results and visualizations.
+- extracted **day** and **month** from the `orderdate` using power query transformations for time-based analysis.  
+- filled missing or unknown values in categorical fields with "unknown" to maintain data integrity.  
+- created **pivot tables** to summarize key metrics:
+  - sum of `orderamount` by **state** and **payment method**.  
+  - count of orders and sum of `orderamount` by **month**.  
+  - count of orders by **order status** (e.g., cancelled, delivered).  
+- added **slicers** in excel to filter data interactively by months, states, and order statuses for dynamic exploration.  
+- developed **visualizations** such as pie charts, histograms, and bar graphs to visually represent distribution of sales, payment methods, and order outcomes.
+
+---
+
+## visualizations (python)
+
+- scatter plots visualizing clusters by frequency and monetary values.  
+- bar plots summarizing average monetary value per cluster.  
+- heatmaps to explore correlations between rfm features.
+
+---
+
+## installation
+
+install the required python libraries 
+pip install pandas numpy scikit-learn matplotlib seaborn like this
 
 
 
+usage
+place your dataset csv in the project folder and update the file path in the python script or notebook.
 
-Results & Insights
-The clustering reveals meaningful segments like High Value Loyal Customers, At Risk Customers, and Potential Loyalists.
+run the script/notebook to perform rfm analysis, clustering, and generate visualizations.
 
-Visualization helps interpret customer distribution and spending patterns across clusters.
+open the provided excel workbook (if available) to explore pivot tables, slicers, and charts.
 
-License
-This project is open source and available under the MIT License.
+results & insights
+the clustering reveals meaningful customer segments such as high value loyal customers, at risk customers, and potential loyalists.
+
+excel pivot tables and charts help validate and understand sales distribution and customer behavior by time, location, payment method, and order status.
+
+combining python clustering with excel insights provides a comprehensive view for data-driven marketing strategies.
+
+license
+this project is open source and available under the mit license.
+   
