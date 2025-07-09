@@ -21,7 +21,7 @@ the dataset contains customer transaction records with fields such as:
 - `orderamount`: purchase amount  
 - `orderstatus`, `paymentmethod`, `city`, `state`: additional categorical info  
 
-> **note:** due to privacy, the dataset is not included here. use your own transactional data or a public dataset with similar structure.
+
 
 ---
 
@@ -65,6 +65,10 @@ to complement python analysis, detailed exploratory data analysis was performed 
 - developed **visualizations** such as pie charts, histograms, and bar graphs to visually represent distribution of sales, payment methods, and order outcomes.
 
 ---
+## excel insights screenshots
+
+
+
 
 ## visualizations (python)
 
@@ -72,7 +76,10 @@ to complement python analysis, detailed exploratory data analysis was performed 
 - bar plots summarizing average monetary value per cluster.  
 - heatmaps to explore correlations between rfm features.
 
----
+---![image](https://github.com/user-attachments/assets/9edff3a6-c790-459f-920e-5db4b69e211b)
+
+![image](https://github.com/user-attachments/assets/262a9af5-9003-4af5-9839-f158b42832d3)
+
 
 ## installation
 
