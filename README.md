@@ -1,107 +1,206 @@
-# customer segmentation using rfm analysis, kmeans clustering & excel insights
+#  Customer Segmentation & Analytics Dashboard
 
-## overview
-
-this project demonstrates how to perform **customer segmentation** on transactional data by combining:
-
-- **rfm (recency, frequency, monetary) analysis with kmeans clustering** in python to discover distinct customer groups based on purchasing behavior.
-- **exploratory data analysis and insights using excel and power query**, including pivot tables, slicers, and charts to understand sales trends by time, location, and order status.
-
-the combined approach helps businesses tailor marketing strategies and improve customer retention by identifying meaningful customer segments and visualizing key transactional patterns.
+This project applies unsupervised learning to cluster customers based on RFM (Recency, Frequency, Monetary) metrics. It then visualizes these customer segments with an **interactive Power BI dashboard** to derive business insights like top-performing customers, dormant users, order trends, and regional behavior.
 
 ---
 
-## dataset
+## 📊 Project Overview
 
-the dataset contains customer transaction records with fields such as:
-
-- `customerid`: unique customer identifier  
-- `orderdate`: date of purchase  
-- `orderid`: unique order number  
-- `orderamount`: purchase amount  
-- `orderstatus`, `paymentmethod`, `city`, `state`: additional categorical info  
-
-
+The objective is to:
+- Segment customers based on their purchasing behavior
+- Use KMeans clustering for unsupervised classification
+- Create a Power BI dashboard to visualize and interact with these segments
+- Enable data-driven decision-making for targeted marketing, retention, and growth strategies
 
 ---
 
-## features and methodology
+## 🧰 Tools & Technologies
 
-### 1. rfm feature engineering (python)
+###  Python Libraries:
+- `pandas`, `numpy` – Data processing
+- `scikit-learn` – Clustering & scaling
+- `matplotlib`, `seaborn` – Data visualization
 
-- **recency:** days since last purchase (calculated from `orderdate`)  
-- **frequency:** number of orders per customer  
-- **monetary:** total amount spent per customer  
-
-### 2. data preprocessing (python)
-
-- handle missing values in categorical columns (`orderstatus`, `paymentmethod`, `city`, `state`) by filling with the mode.  
-- encode categorical variables using `labelencoder`.  
-- scale features with `standardscaler` for normalization before clustering.
-
-### 3. clustering with kmeans (python)
-
-- use the **elbow method** to determine the optimal number of clusters by plotting within-cluster sum of squares (wcss).  
-- apply kmeans clustering (default: 5 clusters).  
-- validate clustering quality using the **silhouette score**.  
-
-### 4. similarity function (python)
-
-- find similar customers based on euclidean distance in scaled rfm feature space to identify customers with similar purchasing behavior within clusters.
+### 📈 Power BI:
+Used for building a feature-rich interactive dashboard that presents customer and order insights.
 
 ---
 
-## excel & power query insights
+## 📁 Dataset Summary
 
-to complement python analysis, detailed exploratory data analysis was performed in excel:
-
-- extracted **day** and **month** from the `orderdate` using power query transformations for time-based analysis.  
-- filled missing or unknown values in categorical fields with "unknown" to maintain data integrity.  
-- created **pivot tables** to summarize key metrics:
-  - sum of `orderamount` by **state** and **payment method**.  
-  - count of orders and sum of `orderamount` by **month**.  
-  - count of orders by **order status** (e.g., cancelled, delivered).  
-- added **slicers** in excel to filter data interactively by months, states, and order statuses for dynamic exploration.  
-- developed **visualizations** such as pie charts, histograms, and bar graphs to visually represent distribution of sales, payment methods, and order outcomes.
+The dataset includes:
+- **CustomerID, OrderID, OrderDate, OrderAmount**
+- Categorical features: **OrderStatus, PaymentMethod, City, State**
 
 ---
-## excel insights screenshots
+
+## ⚙️ Preprocessing & Feature Engineering
+
+1. **RFM Creation**:
+   - `Recency`: Days since the last order
+   - `Frequency`: Number of orders per customer
+   - `Monetary`: Total amount spent
+
+2. **Categorical Handling**:
+   - Missing values filled using mode
+   - `LabelEncoder` used to convert categories to numeric
+
+3. **Scaling**:
+   - `StandardScaler` applied for normalization
+
+4. **Clustering**:
+   - KMeans used for customer segmentation
+   - Silhouette score used to determine optimal cluster count
+   - Selected 5 clusters and mapped them to intuitive segment names
+
+---
+
+## 🧪 Segment Labels
+
+| Cluster | Segment Name           | Description |
+|--------|------------------------|-------------|
+| 0      | Mid-Tier Loyal         | Average frequency and spend, consistent |
+| 1      | High Value / Loyal     | Most frequent and highest spenders |
+| 2      | At Risk / Dormant      | High recency (inactive recently), low frequency |
+| 3      | Recent Regular         | Recently active with decent order count |
+| 4      | Potential Loyalist     | Moderate spend, could be nurtured further |
+
+---
+
+## 🧬 Similar Customer Recommender
+
+Using Euclidean distance and cluster membership, we find the top 5 customers who are most similar to any selected `CustomerID`:
+
+python
+similarcust(custid, rfm)
+📊 Power BI Dashboard Description
+The Power BI dashboard integrates the clustering output with transactional data to present a full view of customer and order behavior.
+
+##  Key Features
+
+- **Quarter-Based Slicer**: Allows users to filter the dashboard by **Q1–Q4**.
+- **Payment Method Slicer**: View trends specific to **UPI**, **card**, **wallet**, etc.
+
+###  Dynamic Tiles
+
+- **Total number of unique customers**
+- **Most frequent customer ID**
+
+---
+
+##  Charts & Visuals
+
+| Chart | Description |
+|-------|-------------|
+| 📍 **Map - Sum of OrderAmount by City** | Geographic visualization showing top cities by revenue |
+| 🏙️ **Bar Chart - Count of CustomerID by State** | Compares customer volume across Indian states |
+| 📈 **Line Chart - Sum of OrderAmount by OrderDate** | Shows time-series trend of total order value |
+| 📊 **Bar Chart - Customer Count by Cluster** | Number of customers in each segment |
+| 🍩 **Donut Chart - Order Count by Segment** | Visual share of orders made by different segments |
+
+All visuals dynamically respond to **slicers and filters** for granular analysis.
+
+---
+
+##  Python Visuals
+
+- 📐 **Silhouette Plot**: Helps choose the optimal number of clusters.
+- 🔵 **Scatter Plot**: Shows cluster separation based on `frequency` vs `totalamount`.
+- 📊 **Bar Plot**: Displays average spend per cluster.
+- 🔥 **Heatmap**: Visualizes correlation between features like recency, payment method, city, etc.
+
+
+##  Business Insights
+
+###  From Clustering
+
+- **Cluster 1 – High Value / Loyal**: Customers with highest frequency and total spend. Critical for retention programs.
+- **Cluster 2 – At Risk / Dormant**: Customers with long inactivity — ideal targets for re-engagement campaigns.
+- **Cluster 4 – Potential Loyalist**: Middle-tier spenders — could be converted into loyal customers with personalized offers.
+- **Cluster 3 – Recent Regular**: Recently active users — ensure satisfaction to keep them engaged.
+- **Cluster 0 – Mid-Tier Loyal**: Stable and reliable customers with moderate frequency/spend.
+
+---
+
+### 📊From Power BI Dashboard
+
+- **UPI dominates** as a payment method — suggests enhancing UPI integration and offering exclusive deals.
+- **Order peaks during February–March 2025** — ideal window for promotional campaigns and sales.
+- **Top revenue cities/states** can be prioritized for regional marketing and sales strategies.
+- **Customer ID CUST1351** is the most frequent customer — a key candidate for loyalty programs or rewards.
+- **Donut chart** shows that a few segments (Clusters 1 & 3) drive the majority of orders — a focused strategy can yield high ROI.
+
+ ##  How to Use This Project
+
+You can explore and run this customer segmentation project by following the steps below.
+
+### 🖥️ Clone the Repository
+```bash
+git clone https://github.com/kreeshal17/E-commerce-Customer-Order-Data-for-Clusterin.git
+cd E-commerce-Customer-Order-Data-for-Clusterin
+```
+ 
+
+
+###  Install Python Dependencies
+Install all necessary libraries using the `requirements.txt` file:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Make sure you are using Python 3.8 or higher.
+
+ Run the Python Script
+This will:
+
+Clean and prepare the dataset
+
+Generate RFM features
+
+Cluster customers using KMeans
+
+Assign segments
+
+Recommend similar customers
+```
+bash
+
+python segmentation.py
+```
+
+After running this, you’ll get:
+
+- **A segmented dataset**
+- **A few graphs plotted using matplotlib/seaborn**
+- **The ability to recommend similar customers using:**
+
+```py
+similarcust(custid, rfm)
+```
+
+---
+
+### Full example for README.md:
+
+```yaml
+## Power BI Dashboard Details
+
+Below is the configuration info for the Power BI Dashboard:
+
+
+power_bi_dashboard:
+  file: dashboard.pbix
+  application: Power BI Desktop
+  filters:
+    - Quarter slicer (Q1–Q4)
+    - Payment Method slicer
+  visuals:
+    - City-wise revenue map
+    - Customer count by state & cluster
+    - Order trends over time
+    - Segment-based donut chart
+```
 
 
 
-
-## visualizations (python)
-
-- scatter plots visualizing clusters by frequency and monetary values.  
-- bar plots summarizing average monetary value per cluster.  
-- heatmaps to explore correlations between rfm features.
-
----![image](https://github.com/user-attachments/assets/9edff3a6-c790-459f-920e-5db4b69e211b)
-
-![image](https://github.com/user-attachments/assets/262a9af5-9003-4af5-9839-f158b42832d3)
-
-
-## installation
-
-install the required python libraries 
-pip install pandas numpy scikit-learn matplotlib seaborn like this
-
-
-
-usage
-place your dataset csv in the project folder and update the file path in the python script or notebook.
-
-run the script/notebook to perform rfm analysis, clustering, and generate visualizations.
-
-open the provided excel workbook (if available) to explore pivot tables, slicers, and charts.
-
-results & insights
-the clustering reveals meaningful customer segments such as high value loyal customers, at risk customers, and potential loyalists.
-
-excel pivot tables and charts help validate and understand sales distribution and customer behavior by time, location, payment method, and order status.
-
-combining python clustering with excel insights provides a comprehensive view for data-driven marketing strategies.
-
-license
-this project is open source and available under the mit license.
-   
